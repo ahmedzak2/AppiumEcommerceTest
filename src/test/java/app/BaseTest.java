@@ -1,11 +1,14 @@
 package app;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -18,6 +21,14 @@ public class BaseTest {
     public String url = "http://localhost:4723/wd/hub";
     public String url2 = "http://localhost:4723";
 
+
+
+    private By countyMenu =By.id("com.androidsample.generalstore:id/spinnerCountry");
+    private By countryChoise =By.xpath("(//android.widget.TextView)[6]");
+    private By countryResult = By.id("android:id/text1");
+    private By name = By.id("com.androidsample.generalstore:id/nameField");
+    private By feamleOption= By.id("com.androidsample.generalstore:id/radioFemale");
+    private By letShop = By.id("com.androidsample.generalstore:id/btnLetsShop");
     @BeforeMethod
 
     public void setup() throws MalformedURLException {
@@ -35,6 +46,14 @@ public class BaseTest {
          * ID -Name -Class Name - Accessibility ID - Xpath - ccs clestor -UIAUtomator */
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
+    }
+
+    public void loginIn() throws InterruptedException {
+        driver.findElement(name).sendKeys("Aya");
+        driver.findElement(feamleOption).click();
+        driver.findElement(countyMenu).click();
+        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Egypt\"));")).click();
+        driver.findElement(letShop).click();
     }
 
     @AfterMethod
