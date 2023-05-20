@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -29,6 +28,8 @@ public class BaseTest {
     private By name = By.id("com.androidsample.generalstore:id/nameField");
     private By feamleOption= By.id("com.androidsample.generalstore:id/radioFemale");
     private By letShop = By.id("com.androidsample.generalstore:id/btnLetsShop");
+    private By productName = By.id("com.androidsample.generalstore:id/productName");
+    private  By addToCart = By.id("com.androidsample.generalstore:id/productAddCart");
     @BeforeMethod
 
     public void setup() throws MalformedURLException {
@@ -54,6 +55,8 @@ public class BaseTest {
         driver.findElement(countyMenu).click();
         driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Egypt\"));")).click();
         driver.findElement(letShop).click();
+    //    WebDriverWait wiat = new WebDriverWait(driver, Duration.ofSeconds(6));
+
     }
 
     @AfterMethod
@@ -88,4 +91,35 @@ public class BaseTest {
 
     }
 
+
+    /*
+    * to scroll to specific element
+    *
+    * */
+    public void addSpecficElementToCartByScrolling(String element) throws InterruptedException {
+        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + element + "\"));")).click();
+
+        /*
+         * beascue we have more than one element have same i use for loop git the text and index of
+         * element to compare it with the required text if match get the index to pass it to click on it
+         * */
+        int productCount= (driver.findElements(productName)).size();
+        for (int i =0;i<productCount;i++){
+
+            String product= driver.findElements(productName).get(i).getText();
+            if (product.equals(element)){
+                driver.findElements(addToCart).get(i).click();
+            }
+
+        }
+        Thread.sleep(2000);
+
+    }
+public Double  getFormatAmount (String amount){
+
+    Double price = Double.parseDouble(amount.substring(1));
+
+return  price;
 }
+    }
+
