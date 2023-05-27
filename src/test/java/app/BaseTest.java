@@ -1,8 +1,10 @@
 package app;
 
 import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -18,6 +20,16 @@ public class BaseTest {
     public String url = "http://localhost:4723/wd/hub";
     public String url2 = "http://localhost:4723";
 
+
+
+    private By countyMenu =By.id("com.androidsample.generalstore:id/spinnerCountry");
+    private By countryChoise =By.xpath("(//android.widget.TextView)[6]");
+    private By countryResult = By.id("android:id/text1");
+    private By name = By.id("com.androidsample.generalstore:id/nameField");
+    private By feamleOption= By.id("com.androidsample.generalstore:id/radioFemale");
+    private By letShop = By.id("com.androidsample.generalstore:id/btnLetsShop");
+    private By productName = By.id("com.androidsample.generalstore:id/productName");
+    private  By addToCart = By.id("com.androidsample.generalstore:id/productAddCart");
     @BeforeMethod
 
     public void setup() throws MalformedURLException {
@@ -34,6 +46,16 @@ public class BaseTest {
         /*different locator appium surrport
          * ID -Name -Class Name - Accessibility ID - Xpath - ccs clestor -UIAUtomator */
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+    }
+
+    public void loginIn() throws InterruptedException {
+        driver.findElement(name).sendKeys("Aya");
+        driver.findElement(feamleOption).click();
+        driver.findElement(countyMenu).click();
+        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Egypt\"));")).click();
+        driver.findElement(letShop).click();
+    //    WebDriverWait wiat = new WebDriverWait(driver, Duration.ofSeconds(6));
 
     }
 
@@ -69,4 +91,35 @@ public class BaseTest {
 
     }
 
+
+    /*
+    * to scroll to specific element
+    *
+    * */
+    public void addSpecficElementToCartByScrolling(String element) throws InterruptedException {
+        driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + element + "\"));")).click();
+
+        /*
+         * beascue we have more than one element have same i use for loop git the text and index of
+         * element to compare it with the required text if match get the index to pass it to click on it
+         * */
+        int productCount= (driver.findElements(productName)).size();
+        for (int i =0;i<productCount;i++){
+
+            String product= driver.findElements(productName).get(i).getText();
+            if (product.equals(element)){
+                driver.findElements(addToCart).get(i).click();
+            }
+
+        }
+        Thread.sleep(2000);
+
+    }
+public Double  getFormatAmount (String amount){
+
+    Double price = Double.parseDouble(amount.substring(1));
+
+return  price;
 }
+    }
+
