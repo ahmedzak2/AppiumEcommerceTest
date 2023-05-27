@@ -45,7 +45,7 @@ public class BaseTest {
 
         //to make chrome work in mobile
 
-        options.setChromedriverExecutable("C:\\Users\\20112\\Downloads\\Compressed\\chromedriver_win32\\chromedriver.exe");
+        options.setChromedriverExecutable("C:\\Users\\20112\\IdeaProjects\\appiumEcommerce\\src\\test\\resources\\chromedriver.exe");
         options.setPlatformVersion("12");
         // options.setAutomationName("Appium");
         options.setApp("C:\\Users\\20112\\IdeaProjects\\appiumEcommerce\\src\\test\\appLocation\\General-Store.apk");
