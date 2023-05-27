@@ -2,6 +2,7 @@ package app;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import org.openqa.selenium.By;
@@ -14,6 +15,10 @@ import org.testng.annotations.BeforeMethod;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static java.time.Duration.ofSeconds;
 
 public class BaseTest {
     public AndroidDriver driver;
@@ -37,6 +42,10 @@ public class BaseTest {
         // options.setDeviceName("sdk_gphone64_x86_64");
         options.setDeviceName("sdk_gphone64_x86_64");
         //options.setPlatformName("Android");
+
+        //to make chrome work in mobile
+
+        options.setChromedriverExecutable("C:\\Users\\20112\\Downloads\\Compressed\\chromedriver_win32\\chromedriver.exe");
         options.setPlatformVersion("12");
         // options.setAutomationName("Appium");
         options.setApp("C:\\Users\\20112\\IdeaProjects\\appiumEcommerce\\src\\test\\appLocation\\General-Store.apk");
@@ -120,6 +129,11 @@ public Double  getFormatAmount (String amount){
     Double price = Double.parseDouble(amount.substring(1));
 
 return  price;
+}
+public void preesLongTouch(By locator){
+    TouchAction touch = new TouchAction(driver);
+    touch.longPress(longPressOptions().withElement(element(driver.findElement(locator))).withDuration(ofSeconds(3))).release().perform();
+
 }
     }
 
