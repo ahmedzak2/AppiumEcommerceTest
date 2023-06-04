@@ -68,6 +68,13 @@ public class BaseTest {
 
     }
 
+    public WebElement findElements(By locater){
+
+       return driver.findElement(locater);
+
+
+    }
+
     @AfterMethod
     public void tearDown() {
         driver.quit();
